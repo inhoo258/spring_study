@@ -23,4 +23,9 @@ public class LoginController {
 	public void login(Model model) {
 	}
 	
+	@RequestMapping("/loginCheck")
+	public String loginCheck() {
+		return null;
+	}
+	
 }

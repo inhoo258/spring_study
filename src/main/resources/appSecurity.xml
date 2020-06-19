@@ -9,16 +9,17 @@
 	<!--pattern 에 어디서 권한을줄지 적어줌 -->
 	<bean id="LoginFailHandler" class="study.spring.emp.member.auth.LoginFailHandler"/>
 	<bean id="LoginSuccessHandler" class="study.spring.emp.member.auth.LoginSuccessHandler"/>
+	
 	<security:http pattern="/resources/**" security="none"/>
 	<security:http>
 <!-- 		<security:intercept-url pattern="/hr/*" access="hasAnyRole('ROLE_ADMIN,ROLE_USER')"/> -->
-	
 		<security:form-login login-page="/login"
 			username-parameter="id" password-parameter="pw"
 			login-processing-url="/loginCheck"
 			authentication-failure-handler-ref="LoginFailHandler"
-			authentication-success-forward-url="LoginSuccessHandler"
+			authentication-success-handler-ref="LoginSuccessHandler"
 		/>
+<!-- 			default-target-url="/loginCheck" -->
 		<security:logout logout-url="/logout" logout-success-url = "/" invalidate-session="true"/>
 		<security:access-denied-handler error-page="/error/autherror"/>
 		<security:csrf disabled="true"/>
