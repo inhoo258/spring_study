@@ -9,7 +9,7 @@
 <body>
 	<script type=text/javascript>
 		alert("중복 로그인은 허용되지 않습니다.");
-		location.href("/login");
+		history.back()
 	</script>
 </body>
 </html>

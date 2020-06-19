@@ -2,6 +2,7 @@ package study.spring.emp.hr.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,18 +26,13 @@ import study.spring.emp.hr.model.EmpVO;
 //@RequestMapping("hr") // 이렇게 걸어주면 아래서 getmapping 에서 안걸어줘도댐
 public class EmpController {
 	// @RequestParm value에 기본값이 있고 없고가 있을때 쓰면좋음
-	//
+	
 	@Autowired
 	IEmpService empService;
 
-//	@Autowired
-//	EmpValidator validator1;
-//	
-//	@InitBinder
-//	public void InitBinder(WebDataBinder binder) {
-//		binder.setValidator(validator1);
-//	}
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
+//	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
+//	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@PostMapping(value = "hr/delete")
 	public String empDelete(@RequestParam(value = "empId") int empId) {
 		System.out.println(empId);
@@ -45,7 +42,9 @@ public class EmpController {
 		return "redirect:/hr/list";
 	}
 	// 삭제 메서드================================================================
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize(" isAuthenticated() and hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
+//	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
+//	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@GetMapping(value = "hr/delete")
 	public String empDalete(@RequestParam(value = "empId") int employeeId, Model model) {
 		System.out.println(employeeId);
@@ -172,12 +171,16 @@ public class EmpController {
 	// ====================================================
 	// RuntimeException 일때
 	// 레포지토리에서 오류시 데이터엑세스오류가뜸
-//	@ExceptionHandler(RuntimeException.class)
-//	public String runtimeException(HttpServletRequest request, Exception ex, Model model) {
-//		model.addAttribute("url", request.getRequestURI());
-//		model.addAttribute("exception", ex);
-//		return "error/runtime";
-//	}
+	@ExceptionHandler(RuntimeException.class)
+	public String runtimeException(HttpServletRequest request, Exception ex, Model model) {
+		if(ex.getMessage().equals("Access is denied")) {
+			return "error/autherror";
+		}else {
+			model.addAttribute("url", request.getRequestURI());
+			model.addAttribute("exception", ex);
+		}
+		return "error/runtime";
+	}
 	
 
 	// JSON ==========================================================

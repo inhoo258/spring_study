@@ -11,8 +11,9 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
-	<aop:aspectj-autoproxy/>
-	<context:component-scan	base-package="study.spring.emp"/>
+	<aop:aspectj-autoproxy />
+	<context:component-scan
+		base-package="study.spring.emp" />
 	<!-- <context:property-placeholder -->
 	<!-- location="classpath:db/jdbc.properties" /> 여기인듯 -->
 
@@ -66,12 +67,18 @@
 			ref="environmentVariableConfiguration" />
 		<property name="password" value="leeinho" />
 	</bean>
-	
-	<bean id ="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-	
-	
-	
-	
+
+	<bean id="bcryptPasswordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+
+
+	<bean id = "multipartResolver"
+		class = "org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize">
+			<value>-1</value>
+		</property>			
+	</bean>
 
 
 	<!-- <tx:advice id="txAdvice" transaction-manager="txManager"> -->

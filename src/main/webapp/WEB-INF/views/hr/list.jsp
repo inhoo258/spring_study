@@ -10,12 +10,9 @@
 </style>
 </head>
 <body>
-${sessionScope.userId} 님 환영합니다
+	<jsp:include page="../header/header.jsp"/>
 	<div align="center">
 		<h1>${msg eq "max" ? "부서별 최고 연봉" : msg eq "list" ? "전체 사원 목록"  : "부서별 평균보다 연봉이 높은 직원"}</h1>
-			<form action="http://localhost:8080/emp/">
-				<input type="submit" value="Home" style="width: 150px; height: 30px; font-size: 20px;">
-			</form>
 		<hr>
 	</div>
 	<div align="center">

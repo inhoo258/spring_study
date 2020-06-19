@@ -8,15 +8,16 @@
 	<!--hasRole(무슨권한 줄지정함) -->
 	<!--pattern 에 어디서 권한을줄지 적어줌 -->
 	<bean id="LoginFailHandler" class="study.spring.emp.member.auth.LoginFailHandler"/>
+	<bean id="LoginSuccessHandler" class="study.spring.emp.member.auth.LoginSuccessHandler"/>
 	<security:http pattern="/resources/**" security="none"/>
 	<security:http>
-<!-- 		<security:intercept-url pattern="/hr/delete" access="hasRole('ROLE_ADMIN')"/> -->
 <!-- 		<security:intercept-url pattern="/hr/*" access="hasAnyRole('ROLE_ADMIN,ROLE_USER')"/> -->
+	
 		<security:form-login login-page="/login"
 			username-parameter="id" password-parameter="pw"
 			login-processing-url="/loginCheck"
-			default-target-url="/loginCheck"	
 			authentication-failure-handler-ref="LoginFailHandler"
+			authentication-success-forward-url="LoginSuccessHandler"
 		/>
 		<security:logout logout-url="/logout" logout-success-url = "/" invalidate-session="true"/>
 		<security:access-denied-handler error-page="/error/autherror"/>
@@ -24,8 +25,15 @@
 		<security:session-management>
 			<security:concurrency-control max-sessions="1" expired-url="/error/loginDuplicate"/>
 		</security:session-management>
-	</security:http>
+		</security:http>
 	
+		<security:authentication-manager>
+		<security:authentication-provider>
+		<security:user-service>
+		<security:user name="master" password="1234" authorities="ROLE_MASTER"/>
+		</security:user-service>
+		</security:authentication-provider>
+		</security:authentication-manager>
 	
 		<!--로그인 성공했을때 default-target-url-->
 		<!--로그인 실패 했을때 authentication-failure-url-->

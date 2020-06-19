@@ -13,7 +13,7 @@
 
 <jsp:include page="header/header.jsp"/>
 	<div align="center">
-	<sec:authorize access="isAnonymous()"> 
+<%-- 	<sec:authorize access="isAnonymous()">  --%>
 		<fieldset style="width:400px; height: 200px;">
 		<legend>로그인</legend>
 		
@@ -36,13 +36,14 @@
 		</table>
 		
 		</fieldset>
-	</sec:authorize>
+<%-- 	</sec:authorize> --%>
 	</div>
 	
 	<div align="center">
 	<sec:authorize access="isAuthenticated()">
 	${sessionScope.userId} 님 환영합니다
 		<a href="<c:url value="/hr/index" />">메인페이지</a>
+		${pageContext.request.contextPath}
 		<form action="${pageContext.request.contextPath}/logout" method="post">
 			<input type=submit value=" 로그아웃 ">
 		</form>

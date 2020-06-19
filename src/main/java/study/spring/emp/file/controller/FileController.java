@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import study.spring.emp.file.dao.IFileService;
 import study.spring.emp.file.model.FileVO;
 
-@PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_USER')")
+@PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MASTER')")
 @Controller
 public class FileController {
 	
